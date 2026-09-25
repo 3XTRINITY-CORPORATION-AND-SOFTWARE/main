@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vercel/
+.output/
+.nitro/
+.vinxi/
+.turbo/
+coverage/
+*.log
+.DS_Store

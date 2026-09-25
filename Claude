@@ -1,0 +1,1 @@
+cd /home/claude/repo && timeout 240 npm install --no-audit --no-fund --prefer-offline 2>&1 | tail -30
