@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "STEEL",
+      "hasCanvas": false,
+      "bodyTextLen": 2223,
+      "bodyTextHash": "7a84c26d39d25c74bd266b548f674e03e4f77d7c8211837c131f04efc96ac5ec",
+      "bodyTextPrefix": "Liigu sisu juurde STEEL OS 3.5.0 · WEB REMOTE · HOST · 250×3 ET ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "STEEL",
+      "hasCanvas": false,
+      "bodyTextLen": 2186,
+      "bodyTextHash": "bf2432594d6255ab047da25f19fd1b09d4e36acb7668e99b13fb5bd4b566d54d",
+      "bodyTextPrefix": "Liigu sisu juurde STEEL ET OS OS tuum WEB Veeb kaugjuht HOST Hos",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

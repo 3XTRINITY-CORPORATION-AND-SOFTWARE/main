@@ -1,0 +1,328 @@
+https://geminicli.com/extensions/?name=gemini-cli-extensionsbigquery-conversational-analytics
+
+https://geminicli.com/extensions/?name=revolut-engineeringrevolut-x-api
+
+
+https://geminicli.com/extensions/?name=gemini-cli-extensionsbigquery-conversational-analytics
+
+https://geminicli.com/extensions/?name=JuliusBrusseecaveman
+
+
+https://geminicli.com/extensions/?name=DietrichGebertponytail
+
+https://geminicli.com/extensions/?name=upstashcontext7
+
+
+
+https://preview--trinitywayve-com.lovable.app/audit
+
+
+
+
+
+
+name: Open new issue
+on: workflow_dispatch
+
+jobs:
+  open-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - run: |
+          gh issue --repo ${{ github.repository }} \
+            create --title "Issue title" --body "Issue body"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+Jäta vahele ja mine põhisisu juurde
+GitHubi dokumendid
+Avaleht
+GitHubi toimingud
+Õpetused
+Autentimine GITHUB_TOKENiga
+Kasutage töövoogudes autentimiseks GITHUB_TOKEN-i
+Siit saate teada, kuidas kasutada GITHUB_TOKENGitHub Actionsi nimel autentimiseks.
+
+Selles artiklis
+See õpetus juhendab teid autentimise kasutamisel GITHUB_TOKENGitHub Actionsi töövoogudes, sh näiteid tokeni edastamiseks toimingutele, API-päringute tegemiseks ja turvalise automatiseerimise õiguste konfigureerimiseks.
+
+Lisateabe saamiseks vaadake GitHubi toimingute töövoo süntaks .
+
+GITHUB_TOKENTöövoos oleva kasutamine
+Saate kasutada GITHUB_TOKENsaladustele viitamiseks standardset süntaksit: ${{ secrets.GITHUB_TOKEN }}. Näited kasutamisest GITHUB_TOKENhõlmavad tokeni edastamist sisendina toimingule või selle kasutamist autentitud GitHub API päringu tegemiseks.
+
+Oluline
+
+Toiming pääseb juurde GITHUB_TOKENkonteksti kaudu github.tokenisegi siis, kui töövoog ei edasta GITHUB_TOKENtoimingule selgesõnaliselt . Hea turbepraktikana peaksite alati veenduma, et toimingutel on ainult minimaalne vajalik juurdepääs, piirates toimingutele antud õigusi GITHUB_TOKEN. Lisateabe saamiseks vaadake jaotist GitHubi toimingute töövoo süntaks .
+
+Näide 1: sisendina GITHUB_TOKENedastamine
+See näidis-töövoog kasutab GitHubi käsurealiidest (CLI) , mis nõuab GITHUB_TOKENsisendparameetri väärtuseks GH_TOKEN:
+
+YAML
+name: Open new issue
+on: workflow_dispatch
+
+jobs:
+  open-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - run: |
+          gh issue --repo ${{ github.repository }} \
+            create --title "Issue title" --body "Issue body"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+Näide 2: REST API kutsumine
+Autentitud API-kõnede tegemiseks saate kasutada GITHUB_TOKEN. See näidis-töövoog loob probleemi GitHub REST API abil:
+
+name: Create issue on commit
+
+on: [ push ]
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create issue using REST API
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Automated issue for commit: ${{ github.sha }}",
+            "body": "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}_."
+            }' \
+          --fail
+Õiguste muutmineGITHUB_TOKEN
+Kasutage permissionsoma töövoo failis olevat võtit , et muuta GITHUB_TOKENkogu töövoo või üksikute tööde õigusi. See võimaldab teil konfigureerida töövoo või töö jaoks minimaalselt nõutavad õigused. Hea turvapraktikana peaksite andma kõige GITHUB_TOKENvähem nõutava juurdepääsu.
+
+Kasutusel olevate õiguste ja nende parameetritega nimede loendi vaatamiseks vaadake jaotist GitHubi toimingute töövoo süntaks .
+
+Selle artikli kaks varasemat töövoo näidet näitavad permissionstöö tasandil kasutatavat võtit.
+
+Lisalubade andmine
+Kui vajate tunnust, mis nõuab õigusi, mida pole serveris saadaval GITHUB_TOKEN, looge GitHubi rakendus ja genereerige oma töövoos installimise juurdepääsutunnus. Lisateabe saamiseks vaadake jaotist Autentitud API-päringute tegemine GitHubi rakendusega GitHub Actionsi töövoos . Teise võimalusena saate luua isikliku juurdepääsutunnuse, salvestada selle oma hoidlas saladusena ja kasutada tunnust oma töövoos süntaksiga ${{ secrets.SECRET_NAME }}. Lisateabe saamiseks vaadake jaotisi Isiklike juurdepääsutunnuste haldamine ja Saladuste kasutamine GitHub Actionsis .
+
+Järgmised sammud
+GITHUB_TOKEN
+GitHubi toimingute töövoo süntaks
+Abi ja tugi
+Kas leidsid, mida vajasid?
+
+ 
+on:
+  workflow_dispatch:
+jobs:
+  demo_app_authentication:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Use the token
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh api octocat
+Jäta vahele ja mine põhisisu juurde
+GitHubi dokumendid
+Avaleht
+Rakendused
+GitHubi rakenduste loomine
+Autentimine GitHubi rakendusega
+JWT genereerimine
+GitHubi rakenduse jaoks JSON-veebitokeni (JWT) genereerimine
+Siit saad teada, kuidas luua JSON-veebitoken (JWT), et autentida oma GitHubi rakendusega teatud REST API lõpp-punktides.
+
+Selles artiklis
+JSON-veebitokenide (JWT-de) kohta
+Rakendusena autentimiseks või installipääsuloa genereerimiseks peate genereerima JSON-veebitokeni (JWT). Kui REST API lõpp-punkt vajab JWT-d, näitab selle lõpp-punkti dokumentatsioon, et lõpp-punktile juurdepääsuks peate kasutama JWT-d.
+
+Teie JWT peab olema algoritmi abil allkirjastatud RS256ja sisaldama järgmisi väiteid.
+
+Nõue	Tähendus	Detailid
+iat	Väljastatud	JWT loomise aeg. Kellaaja triivi vältimiseks soovitame teil selle määrata 60 sekundit minevikku ja veenduda, et teie serveri kuupäev ja kellaaeg on täpselt seatud (näiteks võrguaja protokolli abil).
+exp	Aegub kell	JWT aegumiskuupäev, mille möödudes ei saa seda enam installitokeni taotlemiseks kasutada. See aeg ei tohi olla kaugemal kui 10 minutit tulevikus.
+iss	Väljaandja	Teie GitHubi rakenduse kliendi ID või rakenduse ID. Seda väärtust kasutatakse JWT allkirja kontrollimiseks õige avaliku võtme leidmiseks. Rakenduse ID-d leiate oma GitHubi rakenduse seadete lehelt. Soovitatav on kasutada kliendi ID-d. Lisateavet GitHubi rakenduse seadete lehele navigeerimise kohta leiate jaotisest GitHubi rakenduse registreeringu muutmine .
+alg	Sõnumi autentimiskoodi algoritm	See peaks nii olema RS256, kuna teie JWT tuleb RS256algoritmi abil allkirjastada.
+JWT kasutamiseks edastage Authorizationsee API-päringu päises. Näiteks:
+
+curl --request GET \
+--url "https://api.github.com/app" \
+--header "Accept: application/vnd.github+json" \
+--header "Authorization: Bearer YOUR_JWT" \
+--header "X-GitHub-Api-Version: 2026-03-10"
+Enamasti saab tokeni edastamiseks kasutada Authorization: Bearervõi Authorization: token. JSON-veebitokeni (JWT) edastamisel tuleb aga kasutada Authorization: Bearer.
+
+JSON-veebitokeni (JWT) genereerimine
+Enamikul programmeerimiskeeltel on pakett, mis suudab genereerida JWT-d. Kõigil juhtudel peab teil olema privaatvõti ja oma GitHubi rakenduse ID. Lisateavet privaatvõtme genereerimise kohta leiate jaotisest GitHubi rakenduste privaatvõtmete haldamine . Rakenduse ID leiate GET /appREST API lõpp-punkti abil. Lisateavet leiate REST API dokumentatsiooni jaotisest Rakendused .
+
+Märkus
+
+JWT loomise asemel saate rakendusena autentimiseks kasutada GitHubi Octokit SDK-sid. SDK hoolitseb teie eest JWT genereerimise eest ja taastab JWT, kui token aegub. Lisateabe saamiseks vaadake jaotist Skriptimine REST API ja JavaScriptiga .
+
+Näide: JWT genereerimine Ruby abil
+Märkus
+
+Selle skripti kasutamiseks peate paketi gem install jwtinstallimiseks käivitama .jwt
+
+Järgmises näites asendage YOUR_PATH_TO_PEMsee faili teega, kuhu teie privaatvõti on salvestatud. Asendage see oma rakenduse ID-ga. Lisage kindlasti ja YOUR_CLIENT_IDväärtused jutumärkidesse.YOUR_PATH_TO_PEMYOUR_CLIENT_ID
+
+require 'openssl'
+require 'jwt'  # https://rubygems.org/gems/jwt
+
+# Private key contents
+private_pem = File.read("YOUR_PATH_TO_PEM")
+private_key = OpenSSL::PKey::RSA.new(private_pem)
+
+# Generate the JWT
+payload = {
+  # issued at time, 60 seconds in the past to allow for clock drift
+  iat: Time.now.to_i - 60,
+  # JWT expiration time (10 minute maximum)
+  exp: Time.now.to_i + (10 * 60),
+  
+# GitHub App's client ID
+  iss: "YOUR_CLIENT_ID"
+}
+
+jwt = JWT.encode(payload, private_key, "RS256")
+puts jwt
+Näide: JWT genereerimine Pythoni abil
+Märkus
+
+Selle skripti kasutamiseks peate pip install PyJWT cryptographyinstallima PyJWTja paketid.cryptography
+
+Python
+#!/usr/bin/env python3
+import sys
+import time
+
+import jwt
+
+# Get PEM file path
+if len(sys.argv) > 1:
+    pem = sys.argv[1]
+else:
+    pem = input("Enter path of private PEM file: ")
+
+# Get the Client ID
+if len(sys.argv) > 2:
+    client_id = sys.argv[2]
+else:
+    client_id = input("Enter your Client ID: ")
+
+# Open PEM
+with open(pem, 'rb') as pem_file:
+    signing_key = pem_file.read()
+
+payload = {
+    # Issued at time
+    'iat': int(time.time()),
+    # JWT expiration time (10 minutes maximum)
+    'exp': int(time.time()) + 600,
+    
+    # GitHub App's client ID
+    'iss': client_id
+
+}
+
+# Create JWT
+encoded_jwt = jwt.encode(payload, signing_key, algorithm='RS256')
+
+print(f"JWT: {encoded_jwt}")
+See skript küsib teilt faili teed, kuhu teie privaatvõti on salvestatud, ja teie rakenduse kliendi ID-d. Teise võimalusena saate need väärtused skripti käivitamisel edastada ridade kaupa argumentidena.
+
+Näide: JWT genereerimine Bashi abil
+Märkus
+
+Selle skripti käivitamisel peate argumentidena edastama oma kliendi ID ja faili tee, kuhu teie privaatvõti on salvestatud.
+
+Bash
+#!/usr/bin/env bash
+
+client_id=$1 # Client ID as first argument
+
+pem=$( cat $2 ) # file path of the private key as second argument
+
+now=$(date +%s)
+iat=$((${now} - 60)) # Issues 60 seconds in the past
+exp=$((${now} + 600)) # Expires 10 minutes in the future
+
+b64enc() { openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n'; }
+
+header_json='{
+    "typ":"JWT",
+    "alg":"RS256"
+}'
+# Header encode
+header=$( echo -n "${header_json}" | b64enc )
+
+payload_json="{
+    \"iat\":${iat},
+    \"exp\":${exp},
+    \"iss\":\"${client_id}\"
+}"
+# Payload encode
+payload=$( echo -n "${payload_json}" | b64enc )
+
+# Signature
+header_payload="${header}"."${payload}"
+signature=$(
+    openssl dgst -sha256 -sign <(echo -n "${pem}") \
+    <(echo -n "${header_payload}") | b64enc
+)
+
+# Create JWT
+JWT="${header_payload}"."${signature}"
+printf '%s\n' "JWT: $JWT"
+Näide: JWT genereerimine PowerShelli abil
+Järgmises näites asendage YOUR_PATH_TO_PEMsee faili teega, kuhu teie privaatvõti on salvestatud. Asendage YOUR_CLIENT_IDsee oma rakenduse ID-ga. Lisage kindlasti väärtused YOUR_PATH_TO_PEMjutumärkidesse.
+
+PowerShelli
+#!/usr/bin/env pwsh
+
+$client_id = YOUR_CLIENT_ID
+
+$private_key_path = "YOUR_PATH_TO_PEM"
+
+$header = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json -InputObject @{
+  alg = "RS256"
+  typ = "JWT"
+}))).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+
+$payload = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json -InputObject @{
+  iat = [System.DateTimeOffset]::UtcNow.AddSeconds(-10).ToUnixTimeSeconds()
+  exp = [System.DateTimeOffset]::UtcNow.AddMinutes(10).ToUnixTimeSeconds()
+  iss = $client_id
+}))).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+
+$rsa = [System.Security.Cryptography.RSA]::Create()
+$rsa.ImportFromPem((Get-Content $private_key_path -Raw))
+
+$signature = [Convert]::ToBase64String($rsa.SignData([System.Text.Encoding]::UTF8.GetBytes("$header.$payload"), [System.Security.Cryptography.HashAlgorithmName]::SHA256, [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)).TrimEnd('=').Replace('+', '-').Replace('/', '_')
+$jwt = "$header.$payload.$signature"
+Write-Host $jwt
+Abi ja tugi
+Kas leidsid, mida vajasid?
+
+Privaatsuspoliitika
+Aidake meil neid dokumente suurepäraseks muuta!
+Kõik GitHubi dokumendid on avatud lähtekoodiga. Kas märkad midagi valesti või ebaselget? Esita pull-request.
+
+Siit saate teada, kuidas panustada
+

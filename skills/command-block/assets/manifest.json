@@ -1,0 +1,72 @@
+{
+  "catalog": "command-block",
+  "kinds": {
+    "impulse": {
+      "once": true,
+      "needs": "armed",
+      "note": "Starter. Faces the next block. Same tick."
+    },
+    "chain": {
+      "once": false,
+      "needs": "trigger",
+      "note": "Same tick, arrow order. Default unconditional. Conditional skips the command, not the wire."
+    },
+    "repeat": {
+      "once": false,
+      "needs": "watch",
+      "note": "Crew tick. Cap the duty. Never lock processing."
+    }
+  },
+  "chain": {
+    "same_tick": true,
+    "forward_on_skip": true,
+    "once_per_tick": true,
+    "default_unconditional": true,
+    "behind": "the block whose facing points here",
+    "fail_branch": "cond=fail — Minecraft has no native else"
+  },
+  "conditions": ["always", "ok", "fail", "seed", "rap", "armed"],
+  "profiles": {
+    "dev": ["CREATE_DIR", "MOVE", "DELETE", "PY_INSTALL", "NODE_INSTALL", "GIT_INIT", "GIT_COMMIT_INITIAL", "GEO_LOOKUP", "RHYME_LOCK", "THEORY_EMIT", "EQ_WRITE", "MOTOR", "STANDIN", "MEASURE", "MIMIC"],
+    "ci": ["CREATE_DIR", "MOVE", "DELETE", "PY_INSTALL", "NODE_INSTALL", "GEO_LOOKUP", "RHYME_LOCK", "THEORY_EMIT", "EQ_WRITE", "MOTOR", "STANDIN", "MEASURE"],
+    "release": ["CREATE_DIR", "MOVE", "DELETE", "THEORY_EMIT", "EQ_WRITE", "MOTOR", "STANDIN"],
+    "archive": ["CREATE_DIR", "MOVE", "DELETE"]
+  },
+  "verbs": {
+    "GEO_LOOKUP": { "skill": "ip-api-lookup", "busy": "geoBusy", "lock_processing": false },
+    "RHYME_LOCK": { "skill": "rhyme-lock", "empty": "tags", "rewrite": false, "alphabet": "keep" },
+    "THEORY_EMIT": { "skill": "theory-mirror", "extras": 10, "hear_first_night": ["TAKT-LOCK", "ENERGY-MATCH", "STEREO-MX"] },
+    "EQ_WRITE": { "skill": "equalizer", "keep_rate": true, "upsample": false },
+    "MOTOR": { "skill": "steel-motor", "play_independent_of_geo": true },
+    "STANDIN": { "file": "night_backvox_standin.mp3", "clone": false },
+    "MEASURE": { "gen": 3, "print": false },
+    "MIMIC": { "gen": 3, "requires": "rap", "print": false }
+  },
+  "night_default": [
+    { "kind": "impulse", "cond": "always", "op": "THEORY_EMIT" },
+    { "kind": "chain", "cond": "seed", "op": "RHYME_LOCK" },
+    { "kind": "chain", "cond": "always", "op": "GEO_LOOKUP" },
+    { "kind": "chain", "cond": "always", "op": "MOTOR" }
+  ],
+  "extras": [
+    "MI44OR-5GEM",
+    "WHISP3RER",
+    "DIRT-COL",
+    "CLEAR-COL",
+    "THEORY-SPINE",
+    "ENERGY-MATCH",
+    "TAKT-LOCK",
+    "GYRATOR-AIR",
+    "PRESHAPE-SAT",
+    "STEREO-MX"
+  ],
+  "five_gen": [
+    "fundamental keep",
+    "even-harmonic body",
+    "odd-harmonic edge",
+    "rounded HF decay",
+    "mid stability"
+  ],
+  "langs": ["en", "ru", "es", "et", "de"],
+  "kinds_vocal": ["scream", "growl", "belt", "rap", "chop", "speak", "whisper", "air", "choir", "opera"]
+}

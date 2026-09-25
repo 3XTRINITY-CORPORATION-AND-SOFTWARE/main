@@ -1,0 +1,40 @@
+{
+  "wave": 27,
+  "extras": [
+    "MI44OR-5GEM",
+    "WHISP3RER",
+    "DIRT-COL",
+    "CLEAR-COL",
+    "THEORY-SPINE",
+    "ENERGY-MATCH",
+    "TAKT-LOCK",
+    "GYRATOR-AIR",
+    "PRESHAPE-SAT",
+    "STEREO-MX"
+  ],
+  "objects": [
+    "HOST-FACE",
+    "STAB-NOTE",
+    "WRITE-LAYOUT",
+    "FILE-DATE",
+    "ENJAMB-NOTE",
+    "STAGE-NOTE",
+    "LADDER-EARLY",
+    "WDF-STATIC",
+    "CV-GR",
+    "METER-NOTE",
+    "ONSET-NOTE",
+    "FORM-NOTE",
+    "TSI-FORM",
+    "GEO-MMDB",
+    "R128-96K",
+    "LANG-MIX",
+    "TAG-WRITE"
+  ],
+  "command_block": true,
+  "clone": false,
+  "extra11": false,
+  "ffmpeg_url": false,
+  "geo": "ip-api-lookup",
+  "file_date_is_coordinate": false
+}

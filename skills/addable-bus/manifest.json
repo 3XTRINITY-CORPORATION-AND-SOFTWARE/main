@@ -1,0 +1,9 @@
+{
+  "name": "addable-bus",
+  "version": "27.0.0",
+  "kind": "skill",
+  "short": "Coordinator. Named bus objects. Ten extras. Promote not clone.",
+  "wave": 27,
+  "entry": "SKILL.md",
+  "check": "scripts/check_manifest.py"
+}

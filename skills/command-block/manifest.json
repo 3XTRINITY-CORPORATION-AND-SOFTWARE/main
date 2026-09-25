@@ -1,0 +1,34 @@
+{
+  "name": "command-block",
+  "version": "1.0.0",
+  "kind": "skill",
+  "short": "Sealed command packets for STEEL. Impulse, chain, repeat. Not an extra.",
+  "triggers": [
+    "command-block",
+    "command block",
+    "emit block",
+    "sealed packet",
+    "impulse",
+    "chain block",
+    "standing order"
+  ],
+  "entry": "SKILL.md",
+  "script": "scripts/emit_block.py",
+  "schema": "references/block.md",
+  "assets": "assets/manifest.json",
+  "adjacent": [
+    "theory-mirror",
+    "rhyme-lock",
+    "ip-api-lookup",
+    "equalizer"
+  ],
+  "not": [
+    "11th extra",
+    "voice-print",
+    "school app",
+    "security app",
+    "chat merge"
+  ],
+  "python": "3.10+",
+  "network": "none — emit is local. ip-api stays geo-only in the host app."
+}

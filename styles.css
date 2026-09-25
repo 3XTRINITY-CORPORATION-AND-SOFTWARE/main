@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #111210;
+  --color-raised: #1a1b18;
+  --color-ink: #e8e4d8;
+  --color-muted: #8d8a7e;
+  --color-faint: #6a675e;
+  --color-rule: #2c2d28;
+  --color-stamp: #c45c4a;
+  --color-sage: #6aa56f;
+  --color-live: #6aa56f;
+  --color-clip: #c45c4a;
+  --color-steel: #9aa7b0;
+  --color-ember: #e8783a;
+  --color-ice: #4aa7d4;
+  --color-bg: #111210;
+  --color-fg: #e8e4d8;
+  --color-surface: #1a1b18;
+  --color-primary: #e8e4d8;
+  --color-border: #2c2d28;
+
+  --font-display: "IBM Plex Sans Condensed", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+  --radius: 6px;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+  --text-3xl: clamp(2rem, 1.3rem + 2vw, 2.75rem);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-slow: 400ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  textarea,
+  pre,
+  code {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-live) 30%, transparent);
+    color: var(--color-ink);
+  }
+}
+
+.shell-pad {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 640px) {
+  .shell-pad {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
+
+.shell-header {
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+}
+
+.shell-footer {
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+}
+
+.nav-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.find-enter {
+  animation: find-enter 280ms var(--ease-out) both;
+}
+
+@keyframes find-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.desk-busy {
+  isolation: isolate;
+}
+
+.desk-wash {
+  pointer-events: none;
+  position: absolute;
+  inset: -8px;
+  z-index: 2;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    color-mix(in oklab, var(--color-stamp) 16%, transparent) 45%,
+    color-mix(in oklab, var(--color-live) 18%, transparent) 62%,
+    transparent 85%
+  );
+  background-size: 220% 100%;
+  animation: desk-wash 1.6s var(--ease-out) infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes desk-wash {
+  from {
+    background-position: 100% 0;
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  to {
+    background-position: -20% 0;
+    opacity: 0.35;
+  }
+}
+
+.oled-panel {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ice) 35%, transparent);
+}
+
+.oled-panel canvas {
+  image-rendering: pixelated;
+  background: #0a0b0a;
+  width: 100%;
+  max-width: 24rem;
+  height: auto;
+  aspect-ratio: 128 / 64;
+  display: block;
+}
+
+.kare-hair {
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--color-ember) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
