@@ -1,0 +1,70 @@
+/* STEEL STUDIO — Analog Neon tokens
+ * Source: steel-analog-neon grade of STEEL STUDIO reference photos
+ */
+:root {
+  --neon-red: #ff2a4c;
+  --neon-green: #39ff88;
+  --neon-blue: #3ad0ff;
+  --neon-pink: #ff4fd8;
+  --studio-black: #050505;
+
+  /* Aliases / helpers */
+  --slim-green: var(--neon-green);
+  --steel-neon-glow-red: color-mix(in srgb, var(--neon-red) 55%, transparent);
+  --steel-neon-glow-green: color-mix(in srgb, var(--neon-green) 55%, transparent);
+  --steel-neon-glow-blue: color-mix(in srgb, var(--neon-blue) 55%, transparent);
+  --steel-neon-glow-pink: color-mix(in srgb, var(--neon-pink) 55%, transparent);
+}
+
+/* Utility classes for STEEL integration */
+.steel-neon-red { color: var(--neon-red); }
+.steel-neon-green { color: var(--neon-green); }
+.steel-neon-blue { color: var(--neon-blue); }
+.steel-neon-pink { color: var(--neon-pink); }
+.steel-studio-bg { background-color: var(--studio-black); }
+
+.steel-neon-text-glow-red {
+  color: var(--neon-red);
+  text-shadow: 0 0 6px var(--steel-neon-glow-red), 0 0 16px var(--steel-neon-glow-red);
+}
+.steel-neon-text-glow-green {
+  color: var(--neon-green);
+  text-shadow: 0 0 6px var(--steel-neon-glow-green), 0 0 16px var(--steel-neon-glow-green);
+}
+.steel-neon-text-glow-blue {
+  color: var(--neon-blue);
+  text-shadow: 0 0 6px var(--steel-neon-glow-blue), 0 0 16px var(--steel-neon-glow-blue);
+}
+.steel-neon-text-glow-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 6px var(--steel-neon-glow-pink), 0 0 16px var(--steel-neon-glow-pink);
+}
+
+/* Skin activation — wash + chrome tokens */
+html[data-steel-skin="analog-neon"],
+[data-steel-skin="analog-neon"] {
+  --color-paper: var(--studio-black);
+  --color-ink: #f2f4ff;
+  --color-ember: var(--neon-red);
+  --color-live: var(--neon-green);
+  --color-steel: #8a90a8;
+  --color-rule: #1a1c24;
+  --color-muted: #6a7088;
+  --steel-wash-image: url("../graded/analog-06-graded.jpg");
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+}
+
+html[data-steel-skin="analog-neon"] .steel-shell::before,
+[data-steel-skin="analog-neon"] .steel-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--steel-wash-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.32;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 0;
+}

@@ -1,0 +1,26 @@
+{
+  "include": [
+    "src/**",
+    "scripts/**"
+  ],
+  "exclude": [
+    "node_modules/**",
+    "coverage/**",
+    "dist/**",
+    ".vercel/**",
+    ".output/**",
+    ".nitro/**",
+    ".vinxi/**",
+    ".turbo/**",
+    "**/*.test.*",
+    "**/*.test.mjs",
+    "**/routeTree.gen.ts",
+    "**/*.d.ts"
+  ],
+  "check-coverage": true,
+  "lines": 20,
+  "reporter": [
+    "text",
+    "lcov"
+  ]
+}

@@ -1,0 +1,169 @@
+/* STEEL STUDIO · Analog Neon — motion variants (keyframes only)
+ * No new images. Pair with steel-studio-neon.css.
+ * Usage: add class .neon-motion-<name> to a wash / plate / chrome element,
+ *   or set data-neon-motion="<name>" on an ancestor (see utility rules below).
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 12 studio motion keyframes                                                 */
+/* -------------------------------------------------------------------------- */
+
+@keyframes neon-vu-bounce {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.55; }
+  35% { transform: scaleY(1); opacity: 1; }
+  55% { transform: scaleY(0.62); opacity: 0.8; }
+  75% { transform: scaleY(0.9); opacity: 0.95; }
+}
+
+@keyframes neon-ring-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--neon-red, #ff2a4c) 0%, transparent),
+      0 0 12px color-mix(in srgb, var(--neon-red, #ff2a4c) 35%, transparent);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px color-mix(in srgb, var(--neon-red, #ff2a4c) 0%, transparent),
+      0 0 28px color-mix(in srgb, var(--neon-red, #ff2a4c) 70%, transparent);
+    filter: brightness(1.15);
+  }
+}
+
+@keyframes neon-meter-sweep {
+  0% { transform: translateX(-8%); filter: hue-rotate(0deg); }
+  50% { transform: translateX(8%); filter: hue-rotate(12deg); }
+  100% { transform: translateX(-8%); filter: hue-rotate(0deg); }
+}
+
+@keyframes neon-rack-hum {
+  0%, 100% { opacity: 0.88; filter: contrast(1) saturate(1); }
+  25% { opacity: 1; filter: contrast(1.05) saturate(1.1); }
+  50% { opacity: 0.92; filter: contrast(0.98) saturate(1.05); }
+  75% { opacity: 1; filter: contrast(1.08) saturate(1.15); }
+}
+
+@keyframes neon-channel-strobe {
+  0%, 100% { opacity: 1; }
+  48% { opacity: 1; }
+  50% { opacity: 0.45; }
+  52% { opacity: 1; }
+  84% { opacity: 1; }
+  86% { opacity: 0.6; }
+  88% { opacity: 1; }
+}
+
+@keyframes neon-desk-glow {
+  0%, 100% {
+    text-shadow:
+      0 0 4px color-mix(in srgb, var(--neon-green, #39ff88) 40%, transparent),
+      0 0 14px color-mix(in srgb, var(--neon-green, #39ff88) 25%, transparent);
+  }
+  50% {
+    text-shadow:
+      0 0 8px color-mix(in srgb, var(--neon-green, #39ff88) 80%, transparent),
+      0 0 28px color-mix(in srgb, var(--neon-green, #39ff88) 55%, transparent),
+      0 0 48px color-mix(in srgb, var(--neon-blue, #3ad0ff) 30%, transparent);
+  }
+}
+
+@keyframes neon-banner-scan {
+  0% { background-position: 0% 0%, center; }
+  100% { background-position: 0% 200%, center; }
+}
+
+@keyframes neon-pink-bleed {
+  0%, 100% {
+    filter: drop-shadow(0 0 0 transparent) saturate(1);
+    transform: translate(0, 0);
+  }
+  33% {
+    filter: drop-shadow(2px 0 0 color-mix(in srgb, var(--neon-pink, #ff4fd8) 55%, transparent)) saturate(1.2);
+    transform: translate(-0.5px, 0);
+  }
+  66% {
+    filter: drop-shadow(-2px 0 0 color-mix(in srgb, var(--neon-blue, #3ad0ff) 45%, transparent)) saturate(1.1);
+    transform: translate(0.5px, 0);
+  }
+}
+
+@keyframes neon-slim-green-crawl {
+  0% { transform: translateY(0) scaleX(1); opacity: 0.7; }
+  50% { transform: translateY(-4px) scaleX(1.02); opacity: 1; }
+  100% { transform: translateY(0) scaleX(1); opacity: 0.7; }
+}
+
+@keyframes neon-console-breath {
+  0%, 100% { transform: scale(1); filter: brightness(0.95); }
+  50% { transform: scale(1.015); filter: brightness(1.08); }
+}
+
+@keyframes neon-tape-wow {
+  0% { transform: rotate(0deg) translateX(0); }
+  25% { transform: rotate(0.35deg) translateX(1px); }
+  50% { transform: rotate(-0.25deg) translateX(-1px); }
+  75% { transform: rotate(0.2deg) translateX(0.5px); }
+  100% { transform: rotate(0deg) translateX(0); }
+}
+
+@keyframes neon-phosphor-decay {
+  0% { opacity: 1; filter: brightness(1.2) blur(0); }
+  40% { opacity: 0.85; filter: brightness(1) blur(0.2px); }
+  100% { opacity: 0.55; filter: brightness(0.75) blur(0.6px); }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Utility classes                                                            */
+/* -------------------------------------------------------------------------- */
+
+.neon-motion-vu-bounce { animation: neon-vu-bounce 0.9s ease-in-out infinite; transform-origin: bottom center; }
+.neon-motion-ring-pulse { animation: neon-ring-pulse 2.4s ease-in-out infinite; }
+.neon-motion-meter-sweep { animation: neon-meter-sweep 3.2s ease-in-out infinite; }
+.neon-motion-rack-hum { animation: neon-rack-hum 1.6s steps(3) infinite; }
+.neon-motion-channel-strobe { animation: neon-channel-strobe 1.1s steps(1) infinite; }
+.neon-motion-desk-glow { animation: neon-desk-glow 2.8s ease-in-out infinite; }
+.neon-motion-banner-scan {
+  animation: neon-banner-scan 4s linear infinite;
+  background-size: 100% 200%, cover;
+}
+.neon-motion-pink-bleed { animation: neon-pink-bleed 0.7s steps(2) infinite; }
+.neon-motion-slim-green-crawl { animation: neon-slim-green-crawl 2.2s ease-in-out infinite; }
+.neon-motion-console-breath { animation: neon-console-breath 5s ease-in-out infinite; }
+.neon-motion-tape-wow { animation: neon-tape-wow 3.5s ease-in-out infinite; }
+.neon-motion-phosphor-decay { animation: neon-phosphor-decay 1.8s ease-out infinite alternate; }
+
+/* data-attr mirrors (for studio skin chrome) */
+[data-neon-motion="vu-bounce"] { animation: neon-vu-bounce 0.9s ease-in-out infinite; transform-origin: bottom center; }
+[data-neon-motion="ring-pulse"] { animation: neon-ring-pulse 2.4s ease-in-out infinite; }
+[data-neon-motion="meter-sweep"] { animation: neon-meter-sweep 3.2s ease-in-out infinite; }
+[data-neon-motion="rack-hum"] { animation: neon-rack-hum 1.6s steps(3) infinite; }
+[data-neon-motion="channel-strobe"] { animation: neon-channel-strobe 1.1s steps(1) infinite; }
+[data-neon-motion="desk-glow"] { animation: neon-desk-glow 2.8s ease-in-out infinite; }
+[data-neon-motion="banner-scan"] {
+  animation: neon-banner-scan 4s linear infinite;
+  background-size: 100% 200%, cover;
+}
+[data-neon-motion="pink-bleed"] { animation: neon-pink-bleed 0.7s steps(2) infinite; }
+[data-neon-motion="slim-green-crawl"] { animation: neon-slim-green-crawl 2.2s ease-in-out infinite; }
+[data-neon-motion="console-breath"] { animation: neon-console-breath 5s ease-in-out infinite; }
+[data-neon-motion="tape-wow"] { animation: neon-tape-wow 3.5s ease-in-out infinite; }
+[data-neon-motion="phosphor-decay"] { animation: neon-phosphor-decay 1.8s ease-out infinite alternate; }
+
+/* Prefer-reduced-motion: freeze studio effects */
+@media (prefers-reduced-motion: reduce) {
+  .neon-motion-vu-bounce,
+  .neon-motion-ring-pulse,
+  .neon-motion-meter-sweep,
+  .neon-motion-rack-hum,
+  .neon-motion-channel-strobe,
+  .neon-motion-desk-glow,
+  .neon-motion-banner-scan,
+  .neon-motion-pink-bleed,
+  .neon-motion-slim-green-crawl,
+  .neon-motion-console-breath,
+  .neon-motion-tape-wow,
+  .neon-motion-phosphor-decay,
+  [data-neon-motion] {
+    animation: none !important;
+  }
+}
