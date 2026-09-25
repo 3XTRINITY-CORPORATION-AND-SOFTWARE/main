@@ -1,0 +1,10 @@
+{
+  "name": "STEEL",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  }
+:: Activate in Windows Command Prompt
+.venv\Scripts\activate.bat}
