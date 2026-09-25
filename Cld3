@@ -1,0 +1,328 @@
+diff --git a/.grok/app-env.json b/.grok/app-env.json
+index 38140c5..757159b 100644
+--- a/.grok/app-env.json
++++ b/.grok/app-env.json
+@@ -1,5 +1,5 @@
+ {
+-  "VITE_AUTH_ENABLED": "false",
++  "VITE_AUTH_ENABLED": "true",
+   "deploy": {
+     "database": true
+   }
+diff --git a/app-env.json b/app-env.json
+index 38140c5..757159b 100644
+--- a/app-env.json
++++ b/app-env.json
+@@ -1,5 +1,5 @@
+ {
+-  "VITE_AUTH_ENABLED": "false",
++  "VITE_AUTH_ENABLED": "true",
+   "deploy": {
+     "database": true
+   }
+diff --git a/src/components/app-shell.tsx b/src/components/app-shell.tsx
+index b478b0b..1715ebe 100644
+--- a/src/components/app-shell.tsx
++++ b/src/components/app-shell.tsx
+@@ -1,6 +1,8 @@
+ import { useEffect, type ReactNode } from "react";
+ import { Toaster } from "sonner";
+ import { PlaceBar } from "@/components/place-bar";
++import { Link } from "@tanstack/react-router";
++import { SignedIn, SignedOut, UserButton } from "@/lib/auth/gates";
+ import { teardownAura } from "@/lib/aura/engine";
+ import { teardownDesk } from "@/lib/desk/engine";
+ import { t, nextLang, type I18nKey } from "@/lib/i18n";
+@@ -106,14 +108,27 @@ export function AppShell({ children }: { children: ReactNode }) {
+                 </button>
+               ) : null}
+             </div>
+-            <button
+-              type="button"
+-              onClick={() => patch({ lang: nextLang(lang) })}
+-              className="min-h-11 min-w-11 shrink-0 rounded-[var(--radius-sm)] border border-rule px-2 font-mono text-2xs tracking-wider text-muted uppercase"
+-              aria-label="Language"
+-            >
+-              {lang.toUpperCase()}
+-            </button>
++            <div className="flex shrink-0 items-center gap-3">
++              <SignedIn>
++                <UserButton />
++              </SignedIn>
++              <SignedOut>
++                <Link
++                  to="/login"
++                  className="min-h-11 shrink-0 rounded-[var(--radius-sm)] border border-rule px-3 py-2 font-mono text-2xs tracking-wider text-ink uppercase"
++                >
++                  Sign in
++                </Link>
++              </SignedOut>
++              <button
++                type="button"
++                onClick={() => patch({ lang: nextLang(lang) })}
++                className="min-h-11 min-w-11 shrink-0 rounded-[var(--radius-sm)] border border-rule px-2 font-mono text-2xs tracking-wider text-muted uppercase"
++                aria-label="Language"
++              >
++                {lang.toUpperCase()}
++              </button>
++            </div>
+           </div>
+           <div className="pb-2">
+             <PlaceBar navigate />
+diff --git a/src/lib/auth/email-password.ts b/src/lib/auth/email-password.ts
+index 3abb014..de78c57 100644
+--- a/src/lib/auth/email-password.ts
++++ b/src/lib/auth/email-password.ts
+@@ -7,4 +7,4 @@
+  *
+  * Do NOT edit `server.ts` for this — that file is frozen pre-wired config.
+  */
+-export const emailAndPasswordEnabled = false;
++export const emailAndPasswordEnabled = true;
+diff --git a/src/routeTree.gen.ts b/src/routeTree.gen.ts
+index dceedff..defe8b0 100644
+--- a/src/routeTree.gen.ts
++++ b/src/routeTree.gen.ts
+@@ -10,33 +10,53 @@
+ 
+ import { Route as rootRouteImport } from './routes/__root'
+ import { Route as IndexRouteImport } from './routes/index'
++import { Route as LoginRouteImport } from './routes/login'
++import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+ 
+ const IndexRoute = IndexRouteImport.update({
+   id: '/',
+   path: '/',
+   getParentRoute: () => rootRouteImport,
+ } as any)
++const LoginRoute = LoginRouteImport.update({
++  id: '/login',
++  path: '/login',
++  getParentRoute: () => rootRouteImport,
++} as any)
++const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
++  id: '/api/auth/$',
++  path: '/api/auth/$',
++  getParentRoute: () => rootRouteImport,
++} as any)
+ 
+ export interface FileRoutesByFullPath {
+   '/': typeof IndexRoute
++  '/login': typeof LoginRoute
++  '/api/auth/$': typeof ApiAuthSplatRoute
+ }
+ export interface FileRoutesByTo {
+   '/': typeof IndexRoute
++  '/login': typeof LoginRoute
++  '/api/auth/$': typeof ApiAuthSplatRoute
+ }
+ export interface FileRoutesById {
+   __root__: typeof rootRouteImport
+   '/': typeof IndexRoute
++  '/login': typeof LoginRoute
++  '/api/auth/$': typeof ApiAuthSplatRoute
+ }
+ export interface FileRouteTypes {
+   fileRoutesByFullPath: FileRoutesByFullPath
+-  fullPaths: '/'
++  fullPaths: '/' | '/login' | '/api/auth/$'
+   fileRoutesByTo: FileRoutesByTo
+-  to: '/'
+-  id: '__root__' | '/'
++  to: '/' | '/login' | '/api/auth/$'
++  id: '__root__' | '/' | '/login' | '/api/auth/$'
+   fileRoutesById: FileRoutesById
+ }
+ export interface RootRouteChildren {
+   IndexRoute: typeof IndexRoute
++  LoginRoute: typeof LoginRoute
++  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+ }
+ 
+ declare module '@tanstack/react-router' {
+@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
+       preLoaderRoute: typeof IndexRouteImport
+       parentRoute: typeof rootRouteImport
+     }
++    '/login': {
++      id: '/login'
++      path: '/login'
++      fullPath: '/login'
++      preLoaderRoute: typeof LoginRouteImport
++      parentRoute: typeof rootRouteImport
++    }
++    '/api/auth/$': {
++      id: '/api/auth/$'
++      path: '/api/auth/$'
++      fullPath: '/api/auth/$'
++      preLoaderRoute: typeof ApiAuthSplatRouteImport
++      parentRoute: typeof rootRouteImport
++    }
+   }
+ }
+ 
+ const rootRouteChildren: RootRouteChildren = {
+   IndexRoute: IndexRoute,
++  LoginRoute: LoginRoute,
++  ApiAuthSplatRoute: ApiAuthSplatRoute,
+ }
+ export const routeTree = rootRouteImport
+   ._addFileChildren(rootRouteChildren)
+diff --git a/src/routes/api/auth/$.ts b/src/routes/api/auth/$.ts
+new file mode 100644
+index 0000000..34add8c
+--- /dev/null
++++ b/src/routes/api/auth/$.ts
+@@ -0,0 +1,19 @@
++import { createFileRoute } from "@tanstack/react-router";
++import { auth } from "@/lib/auth/server";
++
++/**
++ * Mounts this app's self-hosted Better Auth instance (`@/lib/auth/server`) at
++ * `/api/auth/*`. Handles both the federated Grok broker callbacks and, once
++ * `emailAndPasswordEnabled` is on, local `signUp.email` / `signIn.email`
++ * requests from `@/lib/auth/client`.
++ *
++ * Server-only file — never import `@/lib/auth/server` from client code.
++ */
++export const Route = createFileRoute("/api/auth/$")({
++  server: {
++    handlers: {
++      GET: ({ request }: { request: Request }) => auth.handler(request),
++      POST: ({ request }: { request: Request }) => auth.handler(request),
++    },
++  },
++});
+diff --git a/src/routes/login.tsx b/src/routes/login.tsx
+new file mode 100644
+index 0000000..98cb1b0
+--- /dev/null
++++ b/src/routes/login.tsx
+@@ -0,0 +1,126 @@
++import { useState, type FormEvent } from "react";
++import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
++import { Button } from "@/components/ui/button";
++import { authClient } from "@/lib/auth/client";
++import { useCurrentUserState } from "@/lib/auth/use-current-user";
++
++export const Route = createFileRoute("/login")({
++  component: LoginPage,
++});
++
++type Mode = "sign-in" | "sign-up";
++
++function Field({
++  label,
++  ...props
++}: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
++  return (
++    <label className="block">
++      <span className="font-mono text-2xs tracking-wider text-muted uppercase">{label}</span>
++      <input
++        {...props}
++        className="mt-1 h-11 w-full rounded-[var(--radius-md)] border border-rule bg-paper px-3 text-sm text-ink outline-none focus:border-ink/40 focus:ring-2 focus:ring-ink/15"
++      />
++    </label>
++  );
++}
++
++function LoginPage() {
++  const navigate = useNavigate();
++  const { user, isPending } = useCurrentUserState();
++  const [mode, setMode] = useState<Mode>("sign-in");
++  const [name, setName] = useState("");
++  const [email, setEmail] = useState("");
++  const [password, setPassword] = useState("");
++  const [error, setError] = useState<string | null>(null);
++  const [submitting, setSubmitting] = useState(false);
++
++  async function handleSubmit(e: FormEvent) {
++    e.preventDefault();
++    setError(null);
++    setSubmitting(true);
++    try {
++      const { error: authError } =
++        mode === "sign-up"
++          ? await authClient.signUp.email({ email, password, name: name || email })
++          : await authClient.signIn.email({ email, password });
++      if (authError) throw new Error(authError.message ?? "Something went wrong");
++      void navigate({ to: "/" });
++    } catch (err) {
++      setError(err instanceof Error ? err.message : "Something went wrong");
++    } finally {
++      setSubmitting(false);
++    }
++  }
++
++  // Wait out session resolution before deciding — acting on `user: null` too
++  // early would flash the form for a visitor who's actually signed in.
++  if (isPending) return null;
++  if (user) return <Navigate to="/" />;
++
++  return (
++    <main className="mx-auto flex min-h-svh w-full max-w-sm flex-col justify-center gap-6 p-6">
++      <div>
++        <h1 className="text-xl font-semibold text-ink">
++          {mode === "sign-up" ? "Create an account" : "Sign in"}
++        </h1>
++        <p className="mt-1 text-sm text-muted">
++          {mode === "sign-up" ? "Already have an account?" : "Need an account?"}{" "}
++          <button
++            type="button"
++            onClick={() => {
++              setError(null);
++              setMode(mode === "sign-up" ? "sign-in" : "sign-up");
++            }}
++            className="underline underline-offset-4 hover:text-ink"
++          >
++            {mode === "sign-up" ? "Sign in" : "Sign up"}
++          </button>
++        </p>
++      </div>
++
++      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
++        {mode === "sign-up" && (
++          <Field
++            label="Name"
++            name="name"
++            value={name}
++            onChange={(e) => setName(e.target.value)}
++            autoComplete="name"
++          />
++        )}
++        <Field
++          label="Email"
++          name="email"
++          type="email"
++          required
++          value={email}
++          onChange={(e) => setEmail(e.target.value)}
++          autoComplete="email"
++        />
++        <Field
++          label="Password"
++          name="password"
++          type="password"
++          required
++          minLength={8}
++          value={password}
++          onChange={(e) => setPassword(e.target.value)}
++          autoComplete={mode === "sign-up" ? "new-password" : "current-password"}
++        />
++
++        {error && <p className="text-sm text-red-600">{error}</p>}
++
++        <Button type="submit" disabled={submitting} className="w-full">
++          {submitting
++            ? mode === "sign-up"
++              ? "Creating account…"
++              : "Signing in…"
++            : mode === "sign-up"
++              ? "Create account"
++              : "Sign in"}
++        </Button>
++      </form>
++    </main>
++  );
++}
+
