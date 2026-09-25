@@ -1,0 +1,72 @@
+name: Bug report
+description: Report broken or unexpected behavior in STEEL
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. For **security** issues, use [SECURITY.md](../../SECURITY.md) instead of a public issue.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the problem.
+      placeholder: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps someone else can follow.
+      placeholder: |
+        1. Go to …
+        2. Click …
+        3. See error …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: STEEL surface
+      multiple: true
+      options:
+        - Desk
+        - Studio / MIDI / racks
+        - Hosts
+        - OLED / console
+        - Audit / JWT / permissions
+        - Auth
+        - CI / tooling
+        - Docs / community
+        - Other / unsure
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser or runtime, and app version or commit if known.
+      placeholder: e.g. macOS 15, Chrome 130, main @ abc1234
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Paste relevant logs (redact secrets) or describe screenshots.
+    validations:
+      required: false
