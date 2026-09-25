@@ -1,0 +1,28 @@
+{
+  "channel": "stable",
+  "current": "3.5.0",
+  "latest": "3.6.0",
+  "released": "2026-09-13",
+  "asio4all": "2.22",
+  "hosts": {
+    "fl": "21+",
+    "ableton": "12.4+",
+    "windows": "8+",
+    "linux": "Wine 7.5+ / PipeWire 0.3+"
+  },
+  "addons": [
+    { "id": "hpf", "name": "High-pass", "version": "1.0.2", "minKernel": "3.0.0" },
+    { "id": "eq", "name": "Ten-band EQ", "version": "2.0.0", "minKernel": "3.5.0" },
+    { "id": "sat", "name": "Tape sat", "version": "1.1.1", "minKernel": "3.1.0" },
+    { "id": "comp", "name": "Bus compressor", "version": "1.3.0", "minKernel": "3.2.0" },
+    { "id": "limit", "name": "Brickwall", "version": "1.0.4", "minKernel": "3.2.0" },
+    { "id": "synth", "name": "MIDI poly", "version": "2.0.0", "minKernel": "3.4.0" },
+    { "id": "transient", "name": "Transient", "version": "1.1.0", "minKernel": "3.5.0" },
+    { "id": "theory", "name": "Theory-mirror 10", "version": "27.0.0", "minKernel": "3.6.0" },
+    { "id": "rhyme", "name": "Rhyme-lock", "version": "1.0.0", "minKernel": "3.6.0" },
+    { "id": "block", "name": "Command-block", "version": "1.0.0", "minKernel": "3.6.0" },
+    { "id": "bus", "name": "Addable-bus 27", "version": "27.0.0", "minKernel": "3.6.0" },
+    { "id": "geo", "name": "ip-api geo", "version": "1.0.0", "minKernel": "3.6.0" }
+  ],
+  "notes": "3.6.0 is the OS-target wave: 10 extras × 3 places, 250 atlas cells, command-block, addable-bus, 10-band EQ. Web is the remote. ASIO stays on the machine."
+}

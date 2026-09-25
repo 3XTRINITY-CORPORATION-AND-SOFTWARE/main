@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/antonioportfelli-boop/STEEL-3XTRINITY-CORPORATION-OFFICIAL-APP-/security/advisories/new
+    about: Report a security issue privately (do not open a public issue).
+  - name: Contributing guide
+    url: https://github.com/antonioportfelli-boop/STEEL-3XTRINITY-CORPORATION-OFFICIAL-APP-/blob/main/CONTRIBUTING.md
+    about: How to set up, open issues, and submit pull requests.
