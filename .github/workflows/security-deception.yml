@@ -1,0 +1,86 @@
+name: Security deception batch
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_index:
+        description: "First symbolic index in the 898^5 space"
+        required: false
+        default: "0"
+        type: string
+  push:
+    branches:
+      - main
+      - security/deception-container-v0.1
+  pull_request:
+    paths:
+      - ".security/deception/**"
+      - ".github/workflows/security-deception.yml"
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-deception-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      START_INDEX: ${{ inputs.start_index || '0' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Unit tests
+        run: python -m unittest discover -s .security/deception -p 'test_*.py'
+
+      - name: Build isolated image
+        run: docker build --file .security/deception/Dockerfile --tag steel-deception:ci .security/deception
+
+      - name: Generate and validate exactly five mirrors
+        run: >-
+          docker run --rm
+          --network none
+          --read-only
+          --tmpfs /work:rw,noexec,nosuid,nodev
+          --cap-drop ALL
+          --security-opt no-new-privileges:true
+          steel-deception:ci batch
+          --output /work/out
+          --start-index "$START_INDEX"
+          --count 5
+
+  open-issue-on-manual-failure:
+    if: ${{ failure() && github.event_name == 'workflow_dispatch' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open one diagnostic issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_TITLE: "Security deception validation failed"
+          ISSUE_BODY: |
+            The manually started security-deception batch failed validation.
+
+            Workflow: ${{ github.workflow }}
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Ref: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+
+            This issue contains diagnostic metadata only; no generated decoy
+            source or credentials should be attached.
+        run: gh issue create --repo "$GITHUB_REPOSITORY" --title "$ISSUE_TITLE" --body "$ISSUE_BODY"
