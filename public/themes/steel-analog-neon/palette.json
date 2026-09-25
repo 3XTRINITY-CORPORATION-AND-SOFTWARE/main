@@ -1,0 +1,60 @@
+{
+  "name": "STEEL STUDIO Analog Neon",
+  "version": "1.0",
+  "colors": {
+    "neon-red": {
+      "hex": "#ff2a4c",
+      "rgb": [
+        255,
+        42,
+        76
+      ],
+      "css": "--neon-red"
+    },
+    "neon-green": {
+      "hex": "#39ff88",
+      "rgb": [
+        57,
+        255,
+        136
+      ],
+      "css": "--neon-green",
+      "alias": "slim-green"
+    },
+    "neon-blue": {
+      "hex": "#3ad0ff",
+      "rgb": [
+        58,
+        208,
+        255
+      ],
+      "css": "--neon-blue"
+    },
+    "neon-pink": {
+      "hex": "#ff4fd8",
+      "rgb": [
+        255,
+        79,
+        216
+      ],
+      "css": "--neon-pink"
+    },
+    "studio-black": {
+      "hex": "#050505",
+      "rgb": [
+        5,
+        5,
+        7
+      ],
+      "css": "--studio-black"
+    }
+  },
+  "grade": {
+    "shadow_crush": "near-black #050505",
+    "warm_remap": "amber/yellow \u2192 neon red / neon pink",
+    "mint_remap": "pale mint greens \u2192 slim green #39ff88",
+    "metals": "neutral/silver retained",
+    "bloom": "bright-mask gaussian blur + screen",
+    "contrast": "boosted ~1.3x"
+  }
+}
