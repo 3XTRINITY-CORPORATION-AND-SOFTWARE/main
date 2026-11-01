@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import tempfile
 import unittest
 from pathlib import Path
@@ -21,10 +22,21 @@ class DeceptionBatchTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             generate_batch(root, start_index=898**4 - 2)
-            sources = [path.read_text(encoding="utf-8") for path in root.glob("mirror-*.py")]
-            self.assertTrue(sources)
-            self.assertTrue(all(f'INTERFACE = "' in source for source in sources))
-            self.assertTrue(all(any(f'INTERFACE = "{route}"' in source for route in ROUTE_NAMES) for source in sources))
+            paths = sorted(root.glob("mirror-*.py"))
+            self.assertTrue(paths)
+            seen = []
+            for path in paths:
+                tree = ast.parse(path.read_text(encoding="utf-8"), filename=path.name, mode="exec")
+                interface = None
+                for node in tree.body:
+                    if isinstance(node, ast.Assign) and any(
+                        isinstance(target, ast.Name) and target.id == "INTERFACE" for target in node.targets
+                    ):
+                        interface = ast.literal_eval(node.value)
+                self.assertIsNotNone(interface, f"INTERFACE assignment missing in {path.name}")
+                self.assertIn(interface, ROUTE_NAMES, f"route out of bounds in {path.name}: {interface!r}")
+                seen.append(interface)
+            self.assertTrue(seen)
 
     def test_batch_size_is_exactly_five(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
